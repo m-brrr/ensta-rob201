@@ -11,13 +11,24 @@ def reactive_obst_avoid(lidar):
     """
     # TODO for TP1
 
-    laser_dist = lidar.get_sensor_values()
+    laser_dist = lidar.get_sensor_values()  #liste de taille 361, en face c'est donc laser_dist[180]
+                                            #l'ordre de grandeur est de 100 pour 2cm environ
     speed = 0.0
     rotation_speed = 0.0
 
     command = {"forward": speed,
                "rotation": rotation_speed}
-
+    
+    isObstacle=False
+    if(laser_dist[180]<=50) :
+        isObstacle = True
+    if not isObstacle :
+        command["forward"]=0.5
+        command["rotation"]=0
+    else : 
+        command["forward"]=0.5
+        command["rotation"]=0.5
+        
     return command
 
 

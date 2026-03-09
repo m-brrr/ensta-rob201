@@ -59,8 +59,8 @@ class TinySlam:
         """
         # TODO for TP3
 
-    def compute(self):
-        """ Useless function, just for the exercise on using the profiler """
+    """def compute(self):
+        # Useless function, just for the exercise on using the profiler
         # Remove after TP1
 
         ranges = np.random.rand(3600)
@@ -72,3 +72,5 @@ class TinySlam:
             pt_x = ranges[i] * np.cos(ray_angles[i])
             pt_y = ranges[i] * np.sin(ray_angles[i])
             points.append([pt_x, pt_y])
+        """
+
