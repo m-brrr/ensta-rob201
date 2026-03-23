@@ -4,7 +4,7 @@ import random
 import numpy as np
 
 
-def reactive_obst_avoid(lidar):
+def reactive_obst_avoid(lidar, rotationHistory, iteration):
     """
     Simple obstacle avoidance
     lidar : placebot object with lidar data
@@ -20,15 +20,26 @@ def reactive_obst_avoid(lidar):
                "rotation": rotation_speed}
     
     isObstacle=False
-    if(laser_dist[180]<=50) :
-        isObstacle = True
+    minDist=min(laser_dist[135:225])    #on prend le minimum dans un cône de vision de 90°
+    angleMin=np.argmin(laser_dist)
+
+    if minDist < 50 :
+        isObstacle=True
+    else :
+        isObstacle=False
+
     if not isObstacle :
         command["forward"]=0.5
         command["rotation"]=0
     else : 
-        command["forward"]=0.5
-        command["rotation"]=0.5
-        
+        command["forward"]=0
+        if(angleMin<180) :  #on tourne dans le sens opposé par rapport au mur
+            command["rotation"]=0.5
+            rotationHistory+=0.5
+        else :
+            command["rotation"]=-0.5
+            rotationHistory-=0.5
+        iteration+=1
     return command
 
 

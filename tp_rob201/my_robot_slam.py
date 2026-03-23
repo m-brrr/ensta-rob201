@@ -42,7 +42,8 @@ class MyRobotSlam(RobotAbstract):
 
         self.tiny_slam = TinySlam(self.occupancy_grid)
         self.planner = Planner(self.occupancy_grid)
-
+        self.rotationHistory=0 #valeur dont on rajoute l'angle à chaque fois
+        self.iteration=0    #valeur à incrémenter à chaque fois
         # storage for pose after localization
         self.corrected_pose = np.array([0, 0, 0])
 
@@ -59,7 +60,8 @@ class MyRobotSlam(RobotAbstract):
         """
      
         # Compute new command speed to perform obstacle avoidance
-        command = reactive_obst_avoid(self.lidar())
+        
+        command = reactive_obst_avoid(self.lidar(), self.rotationHistory, self.iteration)
         return command
 
     def control_tp2(self):
